@@ -1,3 +1,0 @@
-
-class nfs_server {}
-

@@ -11,13 +11,13 @@ class nfs_server_backend::install  {
     owner   => 'cinder',
     mode    => 750,
   }
-  package { 'cinder-common':
-    ensure => installed,
-  }
- service { 'cinder-volume':
-   ensure    => running,
+#  package { 'cinder-common':
+#    ensure => installed,
+#  }
+# service { 'cinder-volume':
+#   ensure    => running,
 #  enable    => true,
- }
+# }
 
 
 
@@ -34,6 +34,14 @@ class nfs_server_backend::install  {
     extra_options        => {},
   }
 
+  package { $::cinder::params::volume_package:
+    ensure => present }
+  service { $::cinder::params::volume_service:
+    ensure => running,}
+  File['/etc/cinder/shares.conf'] {
+    require => Package[$::cinder::params::package_name],
+    notify => Service[$::cinder::params::volume_service]
+  }
 
 
 #file { 'file_for_cinder_shares':
