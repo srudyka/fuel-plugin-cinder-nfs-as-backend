@@ -1,0 +1,12 @@
+- id: cinder-nfs-as-backend
+  type: puppet
+  groups: [cinder]
+  required_for: [deploy_end]
+  requires: [cinder]
+  parameters:
+    puppet_manifest: puppet/manifests/deploy.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 1800
+
+
+

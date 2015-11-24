@@ -1,0 +1,7 @@
+attributes:
+  fuel_plugin_cinder-nfs-as-backend:
+    value: 'Set default value'
+    label: 'Text field'
+    description: 'Description for text field'
+    weight: 25
+    type: "text"
