@@ -2,7 +2,7 @@
   type: puppet
   groups: [cinder]
   required_for: [deploy_end]
-  requires: [deploy_start]
+  requires: [top-role-cinder]
   parameters:
     puppet_manifest: puppet/manifests/deploy.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
