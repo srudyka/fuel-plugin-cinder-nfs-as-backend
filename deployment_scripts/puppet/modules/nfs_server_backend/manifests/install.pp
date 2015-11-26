@@ -1,26 +1,26 @@
 class nfs_server_backend::install  {
   include nfs_server_backend::params
-  include cinder::params 
+  include cinder::params
 
   package { $nfs_server_backend::params::pkg_name_client:
-    ensure => installed, 
+    ensure => installed,
   }
 
-  $mnt_dir = '/var/lib/cinder/mnt' 
+  $mnt_dir = '/var/lib/cinder/mnt'
 
   file { 'cinder_mnt':
-    path    => $mnt_dir,
     ensure  => directory,
+    path    => $mnt_dir,
     group   => 'cinder',
     owner   => 'cinder',
-    mode    => 750,
+    mode    => '0750',
   }
 
-  nfs_server_backend::cinder_backend_nfs { "DEFAULT" :
+  nfs_server_backend::cinder_backend_nfs { 'DEFAULT' :
     volume_backend_name  => 'DEFAULT',
-    nfs_mount_options    => "",
-    nfs_disk_util        => "",
-    nfs_sparsed_volumes  => "True",
+    nfs_mount_options    => '',
+    nfs_disk_util        => '',
+    nfs_sparsed_volumes  => 'True',
     nfs_mount_point_base => $mnt_dir,
     nfs_servers          => $nfs_server_backend::params::nfs_share,
     nfs_shares_config    => '/etc/cinder/shares.conf',
@@ -30,14 +30,14 @@ class nfs_server_backend::install  {
   }
 
   package { $::cinder::params::volume_package:
-    ensure => present, 
+    ensure => present,
   }
   service { $::cinder::params::volume_service:
     ensure => running,
   }
 
   exec { 'cinder_mnt chown':
-    command  => "/bin/chown -R cinder:cinder $mnt_dir",
+    command  => "/bin/chown -R cinder:cinder ${mnt_dir}",
   }
 
 

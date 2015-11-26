@@ -11,11 +11,11 @@ define nfs_server_backend::cinder_backend_nfs (
   $extra_options        = {},
 ) {
 
-  include cinder::params  
+  include cinder::params
   include nfs_server_backend::params
 
   file {$nfs_shares_config:
-    content => "$nfs_servers:$nfs_server_backend::params::nfs_root_path \n",
+    content => "${nfs_servers}:${nfs_server_backend::params::nfs_root_path} \n",
     require => Package[$::cinder::params::volume_package],
     notify  => Service[$::cinder::params::volume_service]
   }
